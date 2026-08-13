@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #f59e0b;
+    --color-primary-light: #fb923c;
+    --color-secondary: #22c55e;
+    --color-slate-ink: #0f172a;
+    --color-surface: #f8fafc;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-surface font-sans text-slate-700 antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading text-slate-ink;
+  }
+}
+
+@layer utilities {
+  .text-fluid-hero {
+    font-size: clamp(2.125rem, 5vw + 0.25rem, 3.75rem);
+  }
+
+  .text-fluid-section {
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  }
+
+  .sun-ray-gradient {
+    background: radial-gradient(
+      ellipse 80% 60% at 50% -20%,
+      rgba(245, 158, 11, 0.35) 0%,
+      rgba(251, 146, 60, 0.12) 40%,
+      transparent 70%
+    );
+  }
+
+  .hero-fullbleed-vignette {
+    background: radial-gradient(
+      ellipse 120% 85% at 50% 45%,
+      transparent 42%,
+      rgba(0, 0, 0, 0.06) 78%,
+      rgba(0, 0, 0, 0.14) 100%
+    );
+  }
+}
