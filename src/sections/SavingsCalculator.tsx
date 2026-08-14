@@ -8,11 +8,37 @@ function formatUah(value: number) {
   return `${Math.round(value).toLocaleString('uk-UA')} грн`
 }
 
+/** Household tariff, KMU PSO through 31.10.2026 (грн/кВт·год). */
+const TARIFF_UAH_PER_KWH = 4.32
+/** Typical Ternopil oblast yield (кВт·год per 1 кВт per year). */
+const YIELD_KWH_PER_KWP = 1120
+/** Daytime self-consumption share, no green-tariff income. */
+const SELF_CONSUMPTION = 0.7
+const MIN_KWP = 5
+const MAX_KWP = 30
+const MIN_SYSTEM_COST = 180_000
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value))
+}
+
+/** 2026 UA turnkey грн/кВт: ~31k at 5–10 kW, ~28k at 15 kW, ~25k at 30 kW. */
+function pricePerKw(kwp: number) {
+  if (kwp <= 10) return 31_000
+  if (kwp <= 15) return 31_000 - ((kwp - 10) / 5) * 3_000
+  return 28_000 - ((kwp - 15) / 15) * 3_000
+}
+
 function computeSavings(bill: number) {
-  const monthly = bill * 0.72
-  const yearly25 = monthly * 12 * 25
-  const systemCost = Math.max(180000, bill * 55)
-  const payback = systemCost / (monthly * 12)
+  const annualKwh = (bill / TARIFF_UAH_PER_KWH) * 12
+  const kwp = clamp(annualKwh / YIELD_KWH_PER_KWP, MIN_KWP, MAX_KWP)
+  const annualGeneration = kwp * YIELD_KWH_PER_KWP
+  const selfConsumedKwh = Math.min(annualKwh, annualGeneration) * SELF_CONSUMPTION
+  const yearly = selfConsumedKwh * TARIFF_UAH_PER_KWH
+  const monthly = yearly / 12
+  const yearly25 = yearly * 25
+  const systemCost = Math.max(MIN_SYSTEM_COST, kwp * pricePerKw(kwp))
+  const payback = yearly > 0 ? systemCost / yearly : 0
   return { monthly, yearly25, payback }
 }
 
