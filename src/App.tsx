@@ -5,7 +5,6 @@ import { FAQ } from './sections/FAQ'
 import { FinalCTA } from './sections/FinalCTA'
 import { Hero } from './sections/Hero'
 import { HowItWorks } from './sections/HowItWorks'
-import { Pricing } from './sections/Pricing'
 import { SavingsCalculator } from './sections/SavingsCalculator'
 import { ServiceArea } from './sections/ServiceArea'
 import { Technology } from './sections/Technology'
@@ -23,7 +22,6 @@ export default function App() {
         <SavingsCalculator />
         <Technology />
         <Testimonials />
-        <Pricing />
         <ServiceArea />
         <FAQ />
         <FinalCTA />
