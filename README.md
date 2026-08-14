@@ -1,6 +1,6 @@
 # Solara
 
-Marketing landing page for **Solara** — residential solar panel installation (Kyiv and region). Copy is mostly Ukrainian; the hero headline and day/night toggle are in English.
+Marketing landing page for **Solara** — residential solar panel installation (Kyiv and region). All user-facing copy is Ukrainian.
 
 Stack: React 18, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide.
 
@@ -82,7 +82,7 @@ Defined in `tailwind.config.js` and CSS variables in `src/index.css`:
 
 - `index.html` `lang="uk"`
 - Currency formatting: `uk-UA` (see `SavingsCalculator`)
-- Keep Ukrainian for body sections unless the user asks to change language
+- All user-facing copy is Ukrainian (see `src/content/site.ts`)
 
 ## Agent skill
 

@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Menu, X, Zap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { a11y, brand, navCta, navLinks } from '../../content/site'
+import { a11y, brand, hero, navCta, navLinks } from '../../content/site'
 import { useHeroTheme } from '../../context/HeroThemeContext'
 import { useScrolled } from '../../hooks/useScrolled'
 import { Container } from './Container'
@@ -127,8 +127,8 @@ export function Navbar() {
             : 'bg-transparent'
         }`}
       >
-        <Container className="flex h-16 items-center justify-between md:h-20">
-          <a href="#home" className="flex min-h-11 items-center gap-2">
+        <Container className="flex h-16 items-center justify-between gap-2 md:h-20">
+          <a href="#home" className="flex min-h-11 shrink-0 items-center gap-2">
             <span
               className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors duration-500 ${logoIconClass}`}
             >
@@ -140,6 +140,13 @@ export function Navbar() {
               {brand.name}
             </span>
           </a>
+
+          <p
+            aria-hidden="true"
+            className={`min-w-0 flex-1 text-center font-heading text-xs font-bold leading-tight tracking-tight sm:text-sm lg:hidden ${logoTextClass}`}
+          >
+            {hero.headline}
+          </p>
 
           <nav className="hidden items-center gap-8 lg:flex" aria-label="Основна навігація">
             {navLinks.map((link) => (
@@ -168,7 +175,7 @@ export function Navbar() {
 
           <button
             type="button"
-            className={`flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2 transition-colors duration-500 lg:hidden ${hamburgerClass}`}
+            className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-xl p-2 transition-colors duration-500 lg:hidden ${hamburgerClass}`}
             aria-label={open ? a11y.closeMenu : a11y.openMenu}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}

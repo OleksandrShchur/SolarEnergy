@@ -8,7 +8,7 @@ export const navLinks = [
   { label: 'Чому сонце', href: '#why-solar' },
   { label: 'Ціни', href: '#pricing' },
   { label: 'Відгуки', href: '#reviews' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Питання', href: '#faq' },
 ] as const
 
 export const navCta = {
@@ -17,13 +17,14 @@ export const navCta = {
 }
 
 export const hero = {
-  headline: '$0 Electricity Bills for the next 7 years',
+  headline: 'Сім років без рахунків',
   subheadline:
-    'Forget the energy market, weather conditions and seasons; our Smart Controller guarantees you get no electricity bill for seven years.',
+    'Забудьте про ринок енергії, погоду та пори року: наш розумний контролер гарантує нульовий рахунок за електроенергію протягом семи років.',
   toggle: {
-    morning: 'Morning',
-    night: 'Night',
-    subtext: '$0 for Electricity',
+    morning: 'Ранок',
+    night: 'Ніч',
+    subtext: '0 грн за світло',
+    ariaLabel: 'Денний і нічний вигляд',
   },
 }
 
@@ -80,7 +81,7 @@ export const whySolar = {
     },
     co2: {
       title: 'Компенсація CO₂ на рік',
-      comparison: 'vs мережа: ~6,1 т/рік',
+      comparison: 'порівняно з мережею: ~6,1 т/рік',
       trees: 'еквівалент посадки близько 70 дерев щороку',
     },
   },
@@ -117,6 +118,7 @@ export const calculator = {
     monthly: 'Орієнтовна місячна економія',
     yearly25: 'Економія за 25 років',
     payback: 'Термін окупності',
+    paybackUnit: 'років',
   },
   cta: 'Отримати точний розрахунок',
   note: 'Розрахунок орієнтовний. Точну пропозицію підготуємо після огляду обʼєкта.',
