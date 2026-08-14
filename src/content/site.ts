@@ -307,6 +307,8 @@ export const footer = {
     facebook: 'Facebook',
     instagram: 'Instagram',
     youtube: 'YouTube',
+    tiktok: 'TikTok',
+    threads: 'Threads',
   },
 }
 
