@@ -14,7 +14,7 @@ export function SectionHeading({
   className = '',
 }: SectionHeadingProps) {
   return (
-    <div className={`mx-auto mb-12 max-w-3xl text-center md:mb-16 ${className}`.trim()}>
+    <div className={`mx-auto mb-10 max-w-3xl text-center sm:mb-12 md:mb-16 ${className}`.trim()}>
       <FadeIn>
         <h2
           className={`text-fluid-section font-bold tracking-tight ${
@@ -25,8 +25,12 @@ export function SectionHeading({
         </h2>
       </FadeIn>
       {subtitle ? (
-        <FadeIn delay={0.1}>
-          <p className={`mt-4 text-base md:text-lg ${light ? 'text-slate-300' : 'text-slate-600'}`}>
+        <FadeIn delay={0.08}>
+          <p
+            className={`mt-4 text-base leading-relaxed md:text-lg ${
+              light ? 'text-stone-300' : 'text-stone-600'
+            }`}
+          >
             {subtitle}
           </p>
         </FadeIn>

@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Menu, X, Zap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
@@ -11,6 +11,7 @@ export function Navbar() {
   const scrolled = useScrolled()
   const { theme } = useHeroTheme()
   const isMorning = theme === 'morning'
+  const prefersReducedMotion = useReducedMotion()
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -26,9 +27,9 @@ export function Navbar() {
   }, [open])
 
   const linkClass = scrolled
-    ? 'text-slate-600 hover:text-slate-ink'
+    ? 'text-stone-600 hover:text-slate-ink'
     : isMorning
-      ? 'text-slate-700 hover:text-slate-ink'
+      ? 'text-stone-700 hover:text-slate-ink'
       : 'text-white/90 hover:text-white'
 
   const logoTextClass = scrolled
@@ -44,16 +45,18 @@ export function Navbar() {
       : 'bg-white/15 text-white'
 
   const hamburgerClass = scrolled
-    ? 'bg-slate-100 text-slate-ink ring-1 ring-slate-200'
+    ? 'bg-cream text-slate-ink ring-1 ring-stone-300/80'
     : isMorning
       ? 'bg-slate-ink/10 text-slate-ink ring-1 ring-slate-ink/15'
       : 'bg-white/15 text-white ring-1 ring-white/20 backdrop-blur-sm'
 
-  const ctaClass = scrolled
-    ? 'bg-primary text-slate-ink shadow-glow hover:bg-primary-light'
-    : isMorning
-      ? 'bg-slate-ink text-white hover:bg-slate-800'
-      : 'bg-white text-slate-ink hover:bg-white/90'
+  const heroCtaClass = isMorning
+    ? 'bg-slate-ink text-cream hover:bg-slate-ink/90'
+    : 'bg-cream text-slate-ink hover:bg-white'
+
+  const sheetTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] as const }
 
   const mobileMenu =
     mounted && open
@@ -66,7 +69,7 @@ export function Navbar() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[55] bg-slate-ink/50 lg:hidden"
+                className="fixed inset-0 z-[55] bg-slate-ink/55 lg:hidden"
                 onClick={() => setOpen(false)}
               />
             </AnimatePresence>
@@ -75,26 +78,26 @@ export function Navbar() {
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
-                transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-                className="fixed inset-y-0 right-0 z-[60] flex w-[min(100%,20rem)] flex-col bg-white p-6 shadow-2xl lg:hidden"
+                transition={sheetTransition}
+                className="fixed inset-y-0 right-0 z-[60] flex w-[min(100%,20rem)] flex-col border-l border-white/40 bg-cream p-6 shadow-2xl lg:hidden"
               >
                 <div className="mb-8 flex items-center justify-between">
                   <span className="font-heading text-lg font-bold text-slate-ink">{brand.name}</span>
                   <button
                     type="button"
                     aria-label={a11y.closeMenu}
-                    className="rounded-xl p-2 text-slate-ink"
+                    className="flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2 text-slate-ink"
                     onClick={() => setOpen(false)}
                   >
                     <X className="h-6 w-6" />
                   </button>
                 </div>
-                <nav className="flex flex-col gap-4" aria-label="Мобільна навігація">
+                <nav className="flex flex-col gap-1" aria-label="Мобільна навігація">
                   {navLinks.map((link) => (
                     <a
                       key={link.href}
                       href={link.href}
-                      className="rounded-xl px-3 py-3 text-base font-medium text-slate-700 hover:bg-surface"
+                      className="rounded-xl px-3 py-3 text-base font-medium text-stone-700 hover:bg-white/70"
                       onClick={() => setOpen(false)}
                     >
                       {link.label}
@@ -102,7 +105,7 @@ export function Navbar() {
                   ))}
                   <a
                     href={navCta.href}
-                    className="mt-4 inline-flex justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-slate-ink"
+                    className="btn-solar mt-4"
                     onClick={() => setOpen(false)}
                   >
                     {navCta.label}
@@ -120,12 +123,12 @@ export function Navbar() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out ${
           scrolled
-            ? 'border-b border-slate-200/60 bg-white/95 shadow-soft backdrop-blur-md'
+            ? 'border-b border-stone-300/50 bg-cream/90 shadow-soft backdrop-blur-md'
             : 'bg-transparent'
         }`}
       >
         <Container className="flex h-16 items-center justify-between md:h-20">
-          <a href="#home" className="flex items-center gap-2">
+          <a href="#home" className="flex min-h-11 items-center gap-2">
             <span
               className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors duration-500 ${logoIconClass}`}
             >
@@ -143,7 +146,7 @@ export function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors duration-500 ${linkClass}`}
+                className={`inline-flex min-h-11 items-center text-sm font-medium transition-colors duration-500 ${linkClass}`}
               >
                 {link.label}
               </a>
@@ -153,7 +156,11 @@ export function Navbar() {
           <div className="hidden lg:block">
             <a
               href={navCta.href}
-              className={`inline-flex rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-500 hover:scale-105 ${ctaClass}`}
+              className={
+                scrolled
+                  ? 'btn-solar'
+                  : `inline-flex min-h-11 items-center rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-500 ${heroCtaClass}`
+              }
             >
               {navCta.label}
             </a>
@@ -161,7 +168,7 @@ export function Navbar() {
 
           <button
             type="button"
-            className={`rounded-xl p-2 transition-colors duration-500 lg:hidden ${hamburgerClass}`}
+            className={`flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2 transition-colors duration-500 lg:hidden ${hamburgerClass}`}
             aria-label={open ? a11y.closeMenu : a11y.openMenu}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}

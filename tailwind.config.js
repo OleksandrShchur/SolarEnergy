@@ -5,13 +5,13 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#F59E0B',
-          light: '#FB923C',
+          DEFAULT: '#F0A61F',
+          light: '#F6C85A',
         },
-        secondary: '#22C55E',
-        'slate-ink': '#0F172A',
-        surface: '#F8FAFC',
-        cream: '#F5F0E6',
+        secondary: '#E07B3A',
+        'slate-ink': '#15120E',
+        surface: '#F3EBDC',
+        cream: '#F8F2E6',
       },
       fontFamily: {
         heading: ['Sora', 'system-ui', 'sans-serif'],
@@ -21,8 +21,8 @@ export default {
         container: '1280px',
       },
       boxShadow: {
-        soft: '0 10px 40px -12px rgba(15, 23, 42, 0.12)',
-        glow: '0 0 24px rgba(245, 158, 11, 0.45)',
+        soft: '0 14px 44px -18px rgba(21, 18, 14, 0.16)',
+        glow: '0 0 36px rgba(240, 166, 31, 0.48)',
       },
     },
   },

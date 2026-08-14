@@ -5,6 +5,7 @@ import {
   type ReactNode,
   type MouseEvent as ReactMouseEvent,
 } from 'react'
+import { useReducedMotion } from 'framer-motion'
 
 type MagnetProps = {
   children: ReactNode
@@ -13,18 +14,21 @@ type MagnetProps = {
   padding?: number
 }
 
+const restStyle = {
+  transform: 'translate3d(0px, 0px, 0)',
+  transition: 'transform 0.6s ease-in-out',
+  willChange: 'transform' as const,
+}
+
 export function Magnet({
   children,
   className = '',
   strength = 8,
   padding = 40,
 }: MagnetProps) {
+  const prefersReducedMotion = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
-  const [style, setStyle] = useState({
-    transform: 'translate3d(0px, 0px, 0)',
-    transition: 'transform 0.6s ease-in-out',
-    willChange: 'transform' as const,
-  })
+  const [style, setStyle] = useState(restStyle)
 
   const handleMove = useCallback(
     (event: ReactMouseEvent<HTMLDivElement>) => {
@@ -43,11 +47,7 @@ export function Magnet({
         event.clientY >= rect.top - padding && event.clientY <= rect.bottom + padding
 
       if (!withinX || !withinY) {
-        setStyle({
-          transform: 'translate3d(0px, 0px, 0)',
-          transition: 'transform 0.6s ease-in-out',
-          willChange: 'transform',
-        })
+        setStyle(restStyle)
         return
       }
 
@@ -61,12 +61,12 @@ export function Magnet({
   )
 
   const handleLeave = useCallback(() => {
-    setStyle({
-      transform: 'translate3d(0px, 0px, 0)',
-      transition: 'transform 0.6s ease-in-out',
-      willChange: 'transform',
-    })
+    setStyle(restStyle)
   }, [])
+
+  if (prefersReducedMotion) {
+    return <div className={`inline-block ${className}`.trim()}>{children}</div>
+  }
 
   return (
     <div

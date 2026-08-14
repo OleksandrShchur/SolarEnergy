@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { ElementType, ReactNode } from 'react'
 
 type FadeInProps = {
@@ -22,6 +22,15 @@ const motionComponents = {
   p: motion.p,
 } as const
 
+const staticTags = {
+  div: 'div',
+  li: 'li',
+  section: 'section',
+  article: 'article',
+  span: 'span',
+  p: 'p',
+} as const
+
 type MotionTag = keyof typeof motionComponents
 
 function getMotionComponent(as: ElementType) {
@@ -31,15 +40,29 @@ function getMotionComponent(as: ElementType) {
   return motion.div
 }
 
+function getStaticTag(as: ElementType): ElementType {
+  if (typeof as === 'string' && as in staticTags) {
+    return staticTags[as as MotionTag]
+  }
+  return 'div'
+}
+
 export function FadeIn({
   children,
   className,
   delay = 0,
-  duration = 0.7,
+  duration = 0.55,
   x = 0,
-  y = 30,
+  y = 18,
   as = 'div',
 }: FadeInProps) {
+  const prefersReducedMotion = useReducedMotion()
+  const StaticTag = getStaticTag(as)
+
+  if (prefersReducedMotion) {
+    return <StaticTag className={className}>{children}</StaticTag>
+  }
+
   const Component = getMotionComponent(as)
 
   return (
@@ -47,7 +70,7 @@ export function FadeIn({
       className={className}
       initial={{ opacity: 0, x, y }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: '-80px', amount: 0 }}
+      viewport={{ once: true, margin: '-64px', amount: 0 }}
       transition={{ duration, delay, ease: easing }}
     >
       {children}
