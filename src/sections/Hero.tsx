@@ -97,14 +97,14 @@ export function Hero() {
         aria-hidden
       />
 
-      {/* Bottom fade into next section — strongest wash stays below subheadline */}
+      {/* Bottom fade into next section — opaque through the subheadline */}
       <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[36%] sm:h-[32%]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[46%] sm:h-[42%]"
         aria-hidden
         animate={{
           background: isMorning
-            ? `linear-gradient(to top, ${SURFACE} 0%, rgba(243,235,220,0.95) 18%, rgba(243,235,220,0.45) 48%, rgba(243,235,220,0.12) 72%, transparent 100%)`
-            : `linear-gradient(to top, ${SURFACE} 0%, rgba(243,235,220,0.9) 20%, rgba(243,235,220,0.4) 50%, rgba(12,10,8,0.2) 70%, transparent 100%)`,
+            ? `linear-gradient(to top, ${SURFACE} 0%, ${SURFACE} 34%, rgba(243,235,220,0.94) 50%, rgba(243,235,220,0.42) 70%, rgba(243,235,220,0.08) 86%, transparent 100%)`
+            : `linear-gradient(to top, ${SURFACE} 0%, ${SURFACE} 34%, rgba(243,235,220,0.92) 50%, rgba(243,235,220,0.38) 70%, rgba(12,10,8,0.16) 86%, transparent 100%)`,
         }}
         transition={washTransition}
       />
@@ -130,16 +130,17 @@ export function Hero() {
             />
           </div>
 
-          <motion.p
-            className="mx-auto max-w-xl pb-2 text-[0.9375rem] leading-relaxed sm:max-w-2xl sm:pb-3 sm:text-base md:text-lg md:leading-[1.65]"
-            style={{
-              textShadow: '0 1px 2px rgba(255, 255, 255, 0.85)',
-            }}
-            animate={{ color: isMorning ? '#57534E' : '#44403C' }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.75, ease: EASE }}
-          >
+          <p className="relative mx-auto max-w-xl pb-2 text-[0.9375rem] font-medium leading-relaxed text-slate-ink sm:max-w-2xl sm:pb-3 sm:text-base md:text-lg md:leading-[1.65]">
+            <span
+              className="pointer-events-none absolute -inset-x-8 -inset-y-5 -z-10 sm:-inset-x-12"
+              aria-hidden
+              style={{
+                background:
+                  'radial-gradient(ellipse 85% 95% at 50% 65%, rgba(243,235,220,0.97) 0%, rgba(243,235,220,0.82) 48%, transparent 78%)',
+              }}
+            />
             {hero.subheadline}
-          </motion.p>
+          </p>
         </div>
       </Container>
     </section>
