@@ -28,11 +28,6 @@ export const hero = {
   },
 }
 
-export const trustBar = {
-  text: 'Нам довіряють понад 12 000 домовласників',
-  partners: ['EcoGrid', 'SunTech', 'GreenBank', 'UkrSolar', 'PowerPlus'],
-}
-
 export const howItWorks = {
   title: 'Від розрахунку до чистої енергії за 4 кроки',
   subtitle: 'Прозорий процес без сюрпризів — ми ведемо вас на кожному етапі.',
