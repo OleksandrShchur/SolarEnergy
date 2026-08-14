@@ -9,7 +9,7 @@ description: >-
 
 # Solara landing
 
-Single-page marketing site. Brand: **Solara**. Most copy is Ukrainian; hero headline and Morning/Night toggle are English.
+Single-page marketing site. Brand: **Solara**. All user-facing copy is Ukrainian.
 
 ## Copy
 

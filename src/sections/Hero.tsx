@@ -127,6 +127,7 @@ export function Hero() {
               morningLabel={hero.toggle.morning}
               nightLabel={hero.toggle.night}
               subtext={hero.toggle.subtext}
+              ariaLabel={hero.toggle.ariaLabel}
             />
           </div>
 

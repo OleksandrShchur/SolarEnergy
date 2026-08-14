@@ -7,6 +7,7 @@ type DayNightToggleProps = {
   morningLabel: string
   nightLabel: string
   subtext: string
+  ariaLabel: string
 }
 
 const PILL_SPRING = { type: 'spring' as const, stiffness: 420, damping: 32 }
@@ -17,6 +18,7 @@ export function DayNightToggle({
   morningLabel,
   nightLabel,
   subtext,
+  ariaLabel,
 }: DayNightToggleProps) {
   const isMorning = theme === 'morning'
   const prefersReducedMotion = useReducedMotion()
@@ -27,7 +29,7 @@ export function DayNightToggle({
         isMorning ? 'bg-slate-ink/50 ring-white/20' : 'bg-black/55 ring-primary/20'
       }`}
       role="group"
-      aria-label="Day and night view"
+      aria-label={ariaLabel}
     >
       <motion.div
         className="absolute inset-y-1 w-[calc(50%-4px)] rounded-full bg-cream shadow-[0_2px_18px_rgba(240,166,31,0.28)]"

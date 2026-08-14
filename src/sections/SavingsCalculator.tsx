@@ -70,7 +70,7 @@ export function SavingsCalculator() {
               <ResultRow
                 label={calculator.results.payback}
                 value={results.payback}
-                format={(v) => `${v.toFixed(1).replace('.', ',')} років`}
+                format={(v) => `${v.toFixed(1).replace('.', ',')} ${calculator.results.paybackUnit}`}
               />
 
               <Magnet className="mt-2 w-full self-start sm:w-auto">
