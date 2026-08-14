@@ -9,7 +9,11 @@ const MORNING_BG = '#FAFAF8'
 const NIGHT_BG = '#0c1220'
 const EASE = [0.4, 0, 0.2, 1] as const
 const IMAGE_EASE = [0.25, 0.1, 0.25, 1] as const
-const IMAGE_DURATION = 0.9
+const IMAGE_DURATION = 0.5
+/** Shared crop so morning/night facades stay locked during dissolve */
+const HERO_OBJECT_POSITION = '50% 42%'
+const HERO_IMG_CLASS =
+  'absolute inset-0 h-full w-full object-cover'
 
 export function Hero() {
   const { theme, setTheme } = useHeroTheme()
@@ -17,14 +21,14 @@ export function Hero() {
   const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
-    ;['/assets/hero/morning.jpg', '/assets/hero/night.jpg'].forEach((src) => {
+    ;['/assets/hero/morning.png', '/assets/hero/night.png'].forEach((src) => {
       const img = new Image()
       img.src = src
     })
   }, [])
 
-  const imageTransition = prefersReducedMotion
-    ? { duration: 0.01 }
+  const fadeTransition = prefersReducedMotion
+    ? { duration: 0 }
     : { duration: IMAGE_DURATION, ease: IMAGE_EASE }
 
   return (
@@ -37,31 +41,24 @@ export function Hero() {
         transition={{ duration: 0.9, ease: EASE }}
       />
 
-      {/* Full-bleed hero images */}
+      {/* Full-bleed hero images — dissolve via Morning/Night toggle */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        <motion.img
-          src="/assets/hero/morning.jpg"
+        <img
+          src="/assets/hero/night.png"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-center"
-          animate={
-            prefersReducedMotion
-              ? { opacity: isMorning ? 1 : 0, y: '0%' }
-              : { y: isMorning ? '0%' : '-100%' }
-          }
-          transition={imageTransition}
-          style={{ zIndex: isMorning ? 2 : 1 }}
+          draggable={false}
+          className={HERO_IMG_CLASS}
+          style={{ objectPosition: HERO_OBJECT_POSITION }}
         />
         <motion.img
-          src="/assets/hero/night.jpg"
+          src="/assets/hero/morning.png"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-center"
-          animate={
-            prefersReducedMotion
-              ? { opacity: isMorning ? 0 : 1, y: '0%' }
-              : { y: isMorning ? '100%' : '0%' }
-          }
-          transition={imageTransition}
-          style={{ zIndex: isMorning ? 1 : 2 }}
+          draggable={false}
+          className={HERO_IMG_CLASS}
+          style={{ objectPosition: HERO_OBJECT_POSITION }}
+          initial={false}
+          animate={{ opacity: isMorning ? 1 : 0 }}
+          transition={fadeTransition}
         />
       </div>
 
@@ -95,14 +92,14 @@ export function Hero() {
         aria-hidden
       />
 
-      {/* Bottom fade into next section */}
+      {/* Bottom fade into next section — strongest wash stays below subheadline */}
       <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[42%] sm:h-[38%]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[36%] sm:h-[32%]"
         aria-hidden
         animate={{
           background: isMorning
-            ? 'linear-gradient(to top, #f8fafc 0%, rgba(248,250,252,0.95) 12%, rgba(248,250,252,0.55) 38%, rgba(248,250,252,0.15) 62%, transparent 100%)'
-            : 'linear-gradient(to top, #f8fafc 0%, rgba(248,250,252,0.88) 14%, rgba(248,250,252,0.42) 40%, rgba(12,18,32,0.25) 58%, transparent 100%)',
+            ? 'linear-gradient(to top, #f8fafc 0%, rgba(248,250,252,0.95) 18%, rgba(248,250,252,0.45) 48%, rgba(248,250,252,0.12) 72%, transparent 100%)'
+            : 'linear-gradient(to top, #f8fafc 0%, rgba(248,250,252,0.9) 20%, rgba(248,250,252,0.4) 50%, rgba(12,18,32,0.2) 70%, transparent 100%)',
         }}
         transition={{ duration: 0.9, ease: EASE }}
       />
@@ -129,8 +126,12 @@ export function Hero() {
           </div>
 
           <motion.p
-            className="mx-auto max-w-xl text-[0.9375rem] leading-relaxed sm:max-w-2xl sm:text-base md:text-lg md:leading-[1.65]"
-            animate={{ color: isMorning ? '#475569' : 'rgba(245, 240, 230, 0.88)' }}
+            className="mx-auto max-w-xl pb-2 text-[0.9375rem] leading-relaxed sm:max-w-2xl sm:pb-3 sm:text-base md:text-lg md:leading-[1.65]"
+            style={{
+              textShadow: '0 1px 2px rgba(255, 255, 255, 0.85)',
+            }}
+            // Dark slate in both themes — sits in the light #f8fafc bottom fade
+            animate={{ color: isMorning ? '#475569' : '#334155' }}
             transition={{ duration: 0.75, ease: EASE }}
           >
             {hero.subheadline}
