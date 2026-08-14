@@ -1,4 +1,4 @@
-import { motion, useInView, useMotionValue, useSpring } from 'framer-motion'
+import { motion, useInView, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import { whySolar } from '../content/site'
 import { Container } from '../components/layout/Container'
@@ -7,7 +7,7 @@ import { FadeIn } from '../components/ui/FadeIn'
 
 export function WhySolar() {
   return (
-    <section id="why-solar" className="bg-surface py-20 md:py-24">
+    <section id="why-solar" className="bg-surface py-16 sm:py-20 md:py-24">
       <Container>
         <SectionHeading title={whySolar.title} subtitle={whySolar.subtitle} />
 
@@ -18,12 +18,12 @@ export function WhySolar() {
 
             if (!hasChart) {
               return (
-                <FadeIn key={row.title} y={28}>
+                <FadeIn key={row.title} y={20}>
                   <div className="mx-auto max-w-2xl">
                     <h3 className="font-heading text-2xl font-bold text-slate-ink md:text-3xl">
                       {row.title}
                     </h3>
-                    <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
+                    <p className="mt-4 text-base leading-relaxed text-stone-600 md:text-lg">
                       {row.description}
                     </p>
                   </div>
@@ -34,18 +34,18 @@ export function WhySolar() {
             return (
               <div
                 key={row.title}
-                className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
+                className={`grid min-w-0 items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
                   reverse ? 'lg:[&>*:first-child]:order-2' : ''
                 }`}
               >
-                <FadeIn x={reverse ? 48 : -48} y={0}>
+                <FadeIn y={20} className="min-w-0">
                   <ChartVisual type={row.chart} />
                 </FadeIn>
-                <FadeIn delay={0.15} y={28}>
+                <FadeIn delay={0.12} y={20} className="min-w-0">
                   <h3 className="font-heading text-2xl font-bold text-slate-ink md:text-3xl">
                     {row.title}
                   </h3>
-                  <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
+                  <p className="mt-4 text-base leading-relaxed text-stone-600 md:text-lg">
                     {row.description}
                   </p>
                 </FadeIn>
@@ -62,21 +62,21 @@ function ChartVisual({ type }: { type: 'bill' | 'co2' }) {
   if (type === 'bill') {
     const c = whySolar.charts.bill
     return (
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft md:p-8">
-        <p className="text-sm font-medium text-slate-500">{c.title}</p>
-        <p className="mt-1 text-xs text-slate-400">{c.subtitle}</p>
+      <div className="glass-card w-full min-w-0 p-4 sm:p-6 md:p-8">
+        <p className="text-sm font-medium text-stone-500">{c.title}</p>
+        <p className="mt-1 text-xs text-stone-400">{c.subtitle}</p>
 
-        <div className="mt-6 flex gap-4">
-          <div className="flex min-h-[10rem] flex-col justify-between py-1 text-right text-[10px] text-slate-400">
+        <div className="mt-6 flex min-w-0 gap-2 sm:gap-4">
+          <div className="flex min-h-[10rem] shrink-0 flex-col justify-between py-1 text-right text-[10px] text-stone-400">
             {c.yAxis.map((label) => (
               <span key={label}>{label}</span>
             ))}
           </div>
 
-          <div className="flex min-h-[10rem] flex-1 items-end justify-center gap-8 border-b border-l border-slate-200 pb-2 pl-2">
-            <Bar label={c.before} height="90%" color="bg-slate-300" value={c.beforeValue} />
+          <div className="flex min-h-[10rem] min-w-0 flex-1 items-end justify-center gap-3 border-b border-l border-stone-200 pb-2 pl-2 sm:gap-8">
+            <Bar label={c.before} height="90%" color="bg-stone-300" value={c.beforeValue} />
             <svg
-              className="mb-16 h-8 w-6 shrink-0 text-slate-300"
+              className="mb-16 h-8 w-4 shrink-0 text-stone-300 sm:w-6"
               viewBox="0 0 24 32"
               fill="none"
               aria-hidden
@@ -89,12 +89,12 @@ function ChartVisual({ type }: { type: 'bill' | 'co2' }) {
                 strokeLinejoin="round"
               />
             </svg>
-            <Bar label={c.after} height="18%" color="bg-secondary" value={c.afterValue} />
+            <Bar label={c.after} height="18%" color="bg-primary" value={c.afterValue} />
           </div>
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          <span className="rounded-full bg-primary/15 px-4 py-1.5 text-sm font-bold text-primary">
+          <span className="rounded-full bg-primary/15 px-4 py-1.5 text-sm font-bold text-secondary">
             {c.savingsBadge}
           </span>
           <span className="rounded-full bg-secondary/15 px-4 py-1.5 text-sm font-semibold text-secondary">
@@ -119,17 +119,21 @@ function Bar({
   color: string
   value: string
 }) {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
-    <div className="flex h-40 w-16 flex-col items-center justify-end gap-2 sm:w-20">
-      <span className="text-xs font-semibold text-slate-ink">{value}</span>
+    <div className="flex h-40 w-16 min-w-0 flex-col items-center justify-end gap-2 sm:w-20">
+      <span className="max-w-full text-center text-[10px] font-semibold leading-tight text-slate-ink sm:text-xs">
+        {value}
+      </span>
       <motion.div
         className={`w-full rounded-t-xl ${color}`}
-        initial={{ height: 0 }}
+        initial={{ height: prefersReducedMotion ? height : 0 }}
         whileInView={{ height }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: [0.25, 0.1, 0.25, 1] }}
       />
-      <span className="text-sm text-slate-500">{label}</span>
+      <span className="text-sm text-stone-500">{label}</span>
     </div>
   )
 }
@@ -138,7 +142,8 @@ function Co2Counter() {
   const c = whySolar.charts.co2
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true })
-  const motionValue = useMotionValue(0)
+  const prefersReducedMotion = useReducedMotion()
+  const motionValue = useMotionValue(prefersReducedMotion ? 4.2 : 0)
   const spring = useSpring(motionValue, { stiffness: 60, damping: 20 })
   const displayRef = useRef<HTMLSpanElement>(null)
 
@@ -147,25 +152,26 @@ function Co2Counter() {
   }, [inView, motionValue])
 
   useEffect(() => {
+    if (prefersReducedMotion && displayRef.current) {
+      displayRef.current.textContent = '4,2'
+      return
+    }
     return spring.on('change', (v) => {
       if (displayRef.current) {
         displayRef.current.textContent = v.toFixed(1).replace('.', ',')
       }
     })
-  }, [spring])
+  }, [spring, prefersReducedMotion])
 
   return (
-    <div
-      ref={ref}
-      className="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white p-8 shadow-soft"
-    >
-      <p className="text-sm font-medium text-slate-500">{c.title}</p>
-      <p className="mt-4 font-heading text-5xl font-extrabold text-secondary md:text-6xl">
-        <span ref={displayRef}>0,0</span>
+    <div ref={ref} className="glass-card flex flex-col items-center justify-center p-8">
+      <p className="text-sm font-medium text-stone-500">{c.title}</p>
+      <p className="mt-4 font-heading text-5xl font-extrabold text-primary md:text-6xl">
+        <span ref={displayRef}>{prefersReducedMotion ? '4,2' : '0,0'}</span>
         <span className="ml-2 text-2xl font-semibold text-slate-ink">т</span>
       </p>
-      <p className="mt-2 text-sm text-slate-500">{c.comparison}</p>
-      <p className="mt-3 text-center text-sm text-slate-600">{c.trees}</p>
+      <p className="mt-2 text-sm text-stone-500">{c.comparison}</p>
+      <p className="mt-3 text-center text-sm text-stone-600">{c.trees}</p>
     </div>
   )
 }

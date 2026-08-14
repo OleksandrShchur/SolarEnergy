@@ -1,4 +1,4 @@
-import { animate, useMotionValue, useMotionValueEvent } from 'framer-motion'
+import { animate, useMotionValue, useMotionValueEvent, useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { calculator } from '../content/site'
 import { Container } from '../components/layout/Container'
@@ -21,22 +21,23 @@ export function SavingsCalculator() {
   const results = computeSavings(bill)
 
   return (
-    <section id="quote" className="bg-slate-ink py-20 md:py-24">
-      <Container>
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-800 to-slate-900 shadow-2xl">
+    <section id="quote" className="relative overflow-hidden bg-slate-ink py-16 sm:py-20 md:py-24">
+      <div className="pointer-events-none absolute inset-0 sun-ray-gradient" aria-hidden />
+      <Container className="relative">
+        <div className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#1C1814] to-[#12100C] shadow-2xl">
           <div className="grid lg:grid-cols-2">
-            <div className="border-b border-white/10 p-8 md:p-10 lg:border-b-0 lg:border-r">
-              <h2 className="font-heading text-fluid-section font-bold text-white">
+            <div className="border-b border-white/10 p-6 sm:p-8 md:p-10 lg:border-b-0 lg:border-r">
+              <h2 className="font-heading text-fluid-section font-bold text-cream">
                 {calculator.title}
               </h2>
-              <p className="mt-3 text-slate-300">{calculator.subtitle}</p>
+              <p className="mt-3 text-stone-300">{calculator.subtitle}</p>
 
               <div className="mt-8">
-                <div className="flex items-center justify-between text-sm">
-                  <label htmlFor="bill-slider" className="font-medium text-slate-300">
+                <div className="flex items-center justify-between gap-3 text-sm">
+                  <label htmlFor="bill-slider" className="font-medium text-stone-300">
                     {calculator.billLabel}
                   </label>
-                  <span className="font-heading font-bold text-primary">{formatUah(bill)}</span>
+                  <span className="shrink-0 font-heading font-bold text-primary">{formatUah(bill)}</span>
                 </div>
                 <input
                   id="bill-slider"
@@ -46,16 +47,16 @@ export function SavingsCalculator() {
                   step={calculator.billStep}
                   value={bill}
                   onChange={(e) => setBill(Number(e.target.value))}
-                  className="mt-4 w-full accent-primary"
+                  className="mt-4 h-11 w-full accent-primary"
                 />
-                <div className="mt-1 flex justify-between text-xs text-slate-500">
+                <div className="mt-1 flex justify-between text-xs text-stone-500">
                   <span>{formatUah(calculator.billMin)}</span>
                   <span>{formatUah(calculator.billMax)}</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col justify-center gap-6 p-8 md:p-10">
+            <div className="flex flex-col justify-center gap-6 p-6 sm:p-8 md:p-10">
               <ResultRow
                 label={calculator.results.monthly}
                 value={results.monthly}
@@ -72,15 +73,12 @@ export function SavingsCalculator() {
                 format={(v) => `${v.toFixed(1).replace('.', ',')} років`}
               />
 
-              <Magnet className="mt-4 self-start">
-                <a
-                  href="#contact-cta"
-                  className="inline-flex rounded-full bg-primary px-8 py-3.5 text-sm font-semibold uppercase tracking-wide text-slate-ink shadow-glow transition-transform hover:scale-105 hover:bg-primary-light"
-                >
+              <Magnet className="mt-2 w-full self-start sm:w-auto">
+                <a href="#contact-cta" className="btn-solar w-full px-8 py-3.5 uppercase tracking-wide sm:w-auto">
                   {calculator.cta}
                 </a>
               </Magnet>
-              <p className="text-xs text-slate-500">{calculator.note}</p>
+              <p className="text-xs text-stone-500">{calculator.note}</p>
             </div>
           </div>
         </div>
@@ -98,20 +96,27 @@ function ResultRow({
   value: number
   format: (v: number) => string
 }) {
+  const prefersReducedMotion = useReducedMotion()
   const mv = useMotionValue(value)
   const [display, setDisplay] = useState(format(value))
 
   useEffect(() => {
+    if (prefersReducedMotion) {
+      setDisplay(format(value))
+      return
+    }
     const controls = animate(mv, value, { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] })
     return controls.stop
-  }, [value, mv])
+  }, [value, mv, format, prefersReducedMotion])
 
-  useMotionValueEvent(mv, 'change', (v) => setDisplay(format(v)))
+  useMotionValueEvent(mv, 'change', (v) => {
+    if (!prefersReducedMotion) setDisplay(format(v))
+  })
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-      <p className="text-sm text-slate-400">{label}</p>
-      <p className="mt-1 font-heading text-2xl font-bold text-white md:text-3xl">{display}</p>
+    <div className="glass-card-dark p-5">
+      <p className="text-sm text-stone-400">{label}</p>
+      <p className="mt-1 font-heading text-2xl font-bold text-cream md:text-3xl">{display}</p>
     </div>
   )
 }

@@ -7,14 +7,12 @@ type ContactButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const baseClass =
-  'inline-flex items-center justify-center rounded-full px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base font-medium uppercase tracking-widest text-white transition-transform duration-300 ease-out hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
+  'inline-flex min-h-11 items-center justify-center rounded-full px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-widest text-slate-ink transition-[filter,box-shadow] duration-300 ease-out hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
 
-const gradientStyle = {
-  background: 'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
+const solarStyle = {
+  background: 'linear-gradient(135deg, #F6C85A 0%, #F0A61F 48%, #E07B3A 100%)',
   boxShadow:
-    '0px 4px 4px rgba(181, 1, 167, 0.25), 4px 4px 12px #7721B1 inset, 0 0 0 2px #fff, 0 0 0 -1px transparent',
-  outline: '2px solid #fff',
-  outlineOffset: '-3px',
+    '0 10px 32px rgba(240, 166, 31, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.45)',
 } as const
 
 export function ContactButton({
@@ -27,14 +25,14 @@ export function ContactButton({
 
   if (href) {
     return (
-      <a href={href} className={classes} style={gradientStyle}>
+      <a href={href} className={classes} style={solarStyle}>
         {children}
       </a>
     )
   }
 
   return (
-    <button type="button" className={classes} style={gradientStyle} {...props}>
+    <button type="button" className={classes} style={solarStyle} {...props}>
       {children}
     </button>
   )

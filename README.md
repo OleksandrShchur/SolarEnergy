@@ -69,11 +69,11 @@ New sections: wrap in `Container`, use `SectionHeading`, give the `<section>` a 
 
 Defined in `tailwind.config.js` and CSS variables in `src/index.css`:
 
-- Primary amber: `#F59E0B` (`primary`)
-- Green: `#22C55E` (`secondary`)
-- Ink: `#0F172A` (`slate-ink`)
-- Page background: `#F8FAFC` (`surface`)
-- Cream (toggle pill): `#F5F0E6`
+- Primary gold: `#F0A61F` (`primary`)
+- Sunrise copper: `#E07B3A` (`secondary`)
+- Warm ink: `#15120E` (`slate-ink`)
+- Page background: `#F3EBDC` (`surface`)
+- Cream (toggle pill / glass): `#F8F2E6`
 - Headings: Sora (`font-heading`)
 - Body: Inter (`font-sans`)
 - Fluid type: `text-fluid-hero`, `text-fluid-section`
