@@ -13,7 +13,7 @@ export function Footer() {
         <div>
           <p className="font-heading text-xl font-bold text-cream">{brand.name}</p>
           <p className="mt-4 text-sm leading-relaxed text-stone-400">{footer.blurb}</p>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex flex-wrap gap-3">
             <SocialLink href="#" label={footer.aria.facebook}>
               <Facebook className="h-4 w-4" />
             </SocialLink>
@@ -22,6 +22,12 @@ export function Footer() {
             </SocialLink>
             <SocialLink href="#" label={footer.aria.youtube}>
               <Youtube className="h-4 w-4" />
+            </SocialLink>
+            <SocialLink href="#" label={footer.aria.tiktok}>
+              <TikTokIcon className="h-4 w-4" />
+            </SocialLink>
+            <SocialLink href="#" label={footer.aria.threads}>
+              <ThreadsIcon className="h-4 w-4" />
             </SocialLink>
           </div>
         </div>
@@ -61,21 +67,27 @@ export function Footer() {
           <h3 className="font-heading text-sm font-semibold uppercase tracking-wider text-cream">
             {footer.columns.contact}
           </h3>
-          <ul className="mt-4 space-y-3 text-sm">
-            <li className="flex items-start gap-2">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-              <a href={`tel:${footer.contact.phone.replace(/\s/g, '')}`} className="inline-flex min-h-11 items-center hover:text-primary">
+          <ul className="mt-4 space-y-1 text-sm">
+            <li>
+              <a
+                href={`tel:${footer.contact.phone.replace(/\s/g, '')}`}
+                className="inline-flex min-h-11 items-center gap-2 hover:text-primary"
+              >
+                <Phone className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                 {footer.contact.phone}
               </a>
             </li>
-            <li className="flex items-start gap-2">
-              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-              <a href={`mailto:${footer.contact.email}`} className="inline-flex min-h-11 items-center hover:text-primary">
+            <li>
+              <a
+                href={`mailto:${footer.contact.email}`}
+                className="inline-flex min-h-11 items-center gap-2 hover:text-primary"
+              >
+                <Mail className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                 {footer.contact.email}
               </a>
             </li>
-            <li className="flex items-start gap-2">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+            <li className="flex min-h-11 items-center gap-2">
+              <MapPin className="h-4 w-4 shrink-0 text-primary" aria-hidden />
               <span>{footer.contact.address}</span>
             </li>
           </ul>
@@ -115,5 +127,41 @@ function SocialLink({
     >
       {children}
     </a>
+  )
+}
+
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+    </svg>
+  )
+}
+
+function ThreadsIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <path d="M19 7.5c-1.333-3-3.667-4.5-7-4.5-5 0-8 2.5-8 9s3.5 9 8 9 7-3 7-5-1-5-7-5c-2.5 0-3 1.25-3 2.5 0 1.5 1 2.5 2.5 2.5 2.5 0 3.5-1.5 3.5-5s-2-5-5-5-3 1-3.5 3" />
+    </svg>
   )
 }
